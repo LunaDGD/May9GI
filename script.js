@@ -71,18 +71,23 @@ function minCoinChange(coins, amount) {
   // create an array to hold the minimum number of coins to make each amount
   // amount + 1 so that you will have indices from 0 to amount in the array
   const minCoins = new Array(amount + 1).fill(Infinity);
-  // there are 0 ways to make amount 0 with positive coin values
-  minCoins[0] = 0;
+  minCoins[0] = 0; // there are 0 ways to make amount 0 with positive coin values
+
   // look at one coin at a time
   for (let coin of coins) {
-    for (let i = 0; i <= amount; i += 1) {
+    // goes through each coin
+    for (let i = 0; i <= minCoinChange.length; i += 1) {
+      // i represents the amout. compares the minimum amount
       // make sure the difference between the current amount and the current coin is at least 0
       // replace the minimum value
-      if (i - coin >= 0)
-        minCoins[i] = Math.min(minCoins[i], minCoins[i - coin] + 1);
+      if (i - coin >= 0) {
+        // if (coin <= i)
+        let index = i - coin; // retrieves the index
+        let potentialAmount = minCoinChange[index] + 1;
+        minCoinChange[i] = Math.min(potentialAmount, minCoinChange[i]);
+      }
     }
   }
-  // if the value remains Infinity, it means that no coin combination can make that amount
-  return minCoins[amount] !== Infinity ? minCoins[amount] : -1;
+  return minCoins[amount] !== Infinity ? minCoins[amount] : -1; // if the value remains Infinity, there isnt a combonation of coins that makes the amount
 }
 minCoinChange((1, 2, 5), 11);
